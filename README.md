@@ -16,5 +16,3 @@ docker run -p 5000:5000 python-flask-web
 
 Visit: http://localhost:5000
 
----
-**Created by Sushant Sonbarse** | [GitHub](https://github.com/sonbarse17/)
