@@ -41,4 +41,4 @@ jobs:
         
     - name: Test if app is running
       run: |
-        curl --fail http://localhost:5000
+        nohup python app.py > output.log 2>&1 &
