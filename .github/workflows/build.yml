@@ -11,7 +11,13 @@ jobs:
       - name: List files
         run: |
           ls -l
-      # You can test your matrix by printing the current Python version
-      - name: run hello.py
+
+      - name: Run hello.py and save output
         run: |
-          python hello.py
+          python hello.py > output.txt
+
+      - name: Upload hello.py output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hello-output
+          path: output.txt
