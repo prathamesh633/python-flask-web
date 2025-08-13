@@ -29,5 +29,5 @@ jobs:
       - name: Run Docker Container
         run: docker run -d -p 8082:8080 $DOCKER_IMAGE:$DOCKER_TAG
 
-      - name: Docker Cleanup
+      - name: Docker-Cleanup
         run: docker system prune -a -f
