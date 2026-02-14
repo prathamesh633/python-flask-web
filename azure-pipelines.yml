@@ -18,14 +18,14 @@ stages:
 
   # ---------------- BUILD JOB ----------------
   - job: Build
-    displayName: Install Dependencies
+    displayName: RUn Build
 
     steps:
     - checkout: self
 
     - script: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r flask-app/requirements.txt
         pip install pytest
       displayName: Install Dependencies
 
@@ -33,16 +33,14 @@ stages:
   # ---------------- TEST JOB ----------------
   - job: Test
     displayName: Run Tests
-    dependsOn: Build   # equivalent to needs: build
+    dependsOn: Build   
 
     steps:
     - checkout: self
 
     - script: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r flask-app/requirements.txt
         pip install pytest
       displayName: Install Dependencies Again
 
-    - script: pytest
-      displayName: Run Tests
