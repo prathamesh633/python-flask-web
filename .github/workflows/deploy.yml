@@ -15,13 +15,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # ✅ Setup Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      # ✅ Linting
+      # Linting
       - name: Run linting
         run: |
           pip install flake8
@@ -34,7 +33,6 @@ jobs:
           name: linting_logs
           path: linting.log
 
-      # ✅ Extract SHA + Version
       - name: Extract metadata (tags)
         run: |
           echo "SHA_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
@@ -45,7 +43,6 @@ jobs:
             echo "VERSION_TAG=latest" >> $GITHUB_ENV
           fi
 
-      # ✅ Build Docker image
       - name: Build Docker image
         run: |
           docker build \
@@ -60,7 +57,7 @@ jobs:
           name: docker_build_logs
           path: build.log
 
-      # ✅ Scan image with Trivy
+      # Scan image with Trivy
       - name: Scan Docker image for vulnerabilities
         uses: aquasecurity/trivy-action@0.20.0
         with:
@@ -77,14 +74,12 @@ jobs:
           name: trivy_scan_report
           path: trivy-report.txt
 
-      # ✅ Docker Login
       - name: Docker Login
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # ✅ Push Image
       - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:${SHA_TAG}
