@@ -24,10 +24,10 @@ stages:
     steps:
     - checkout: self
 
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.11'
-      displayName: 'Set up Python 3.11'
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: '3.11'
+    #   displayName: 'Set up Python 3.11'
 
     - script: |
         python -m pip install --upgrade pip
@@ -44,10 +44,10 @@ stages:
     steps:
     - checkout: self
 
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.11'
-      displayName: 'Set up Python 3.11'
+    # - task: UsePythonVersion@0
+    #   inputs:
+    #     versionSpec: '3.11'
+    #   displayName: 'Set up Python 3.11'
 
     - script: |
         python -m pip install --upgrade pip
