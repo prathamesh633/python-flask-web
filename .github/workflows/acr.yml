@@ -1,6 +1,6 @@
 name: Build and Push to ACR
 on:
-  push:
+  pull_request:
     branches:
       - main
 
