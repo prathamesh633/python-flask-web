@@ -10,6 +10,9 @@ trigger:
 resources:
 - repo: self
 
+pool:
+  name: Default  
+
 variables:
   tag: '$(Build.BuildId)'
   imageName: 'flask-app'
@@ -20,10 +23,8 @@ stages:
   jobs:
   - job: Build
     displayName: Build
-    pool:
-      vmImage: default
-    steps:
 
+    steps:
     - checkout: self
 
     - task: Docker@2
