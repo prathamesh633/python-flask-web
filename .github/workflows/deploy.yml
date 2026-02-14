@@ -30,13 +30,7 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKER_USERNAME }}/flask-app:${SHA_TAG} \
                        -t ${{ secrets.DOCKER_USERNAME }}/flask-app:${VERSION_TAG} \
-                       . >> build.log 2>&1
-
-      - name: Upload build.log output as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Docker_build_logs
-          path: build.log
+                       . >> build.log 2>&1 | tee build.log
 
 
       - name: Docker Login
@@ -50,4 +44,9 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:${SHA_TAG}
           docker push ${{ secrets.DOCKER_USERNAME }}/flask-app:${VERSION_TAG}
 
-      
+      - name: Upload build.log output as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Docker_build_logs
+          path: build.log
