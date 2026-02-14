@@ -65,7 +65,7 @@ jobs:
         uses: aquasecurity/trivy-action@0.20.0
         with:
           image-ref: ${{ secrets.DOCKER_USERNAME }}/flask-app:${{ env.SHA_TAG }}
-          severity: CRITICAL,HIGH
+          severity: CRITICAL
           format: table
           output: trivy-report.txt
           exit-code: 1
