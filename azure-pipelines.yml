@@ -7,12 +7,6 @@ trigger:
     include:
       - main
 
-resources:
-- repo: self
-
-pool:
-  name: Default  
-
 variables:
   tag: '$(Build.BuildId)'
   imageName: 'flask-app'
@@ -23,6 +17,8 @@ stages:
   jobs:
   - job: Build
     displayName: Build
+    pool:
+      name: Default   # ✅ self-hosted agent pool
 
     steps:
     - checkout: self
