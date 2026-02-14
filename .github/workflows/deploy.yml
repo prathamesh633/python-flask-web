@@ -1,7 +1,7 @@
 name: Docker Build & Deploy
 
 on:
-  pull_request:
+  push:
     branches:
       - main
     tags:
@@ -14,6 +14,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Run linting
+        run: | 
+          pip install flake8
+          flake8 . > linting.log 2>&1 | tee linting.log
+
+      - name: Upload linting.log output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linting_logs
+          path: linting.log
 
       - name: Extract metadata (tags)
         id: meta
@@ -39,6 +50,22 @@ jobs:
           name: Docker_build_logs
           path: build.log
 
+
+      - name: Scan Docker image for vulnerabilities
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ secrets.DOCKER_USERNAME }}/flask-app:${SHA_TAG}
+          severity: CRITICAL,HIGH
+          format: table
+          output: trivy-report.txt
+          exit-code: 1
+      
+      - name: Upload Trivy scan report as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy_scan_report
+          path: trivy-report.txt
 
       - name: Docker Login
         uses: docker/login-action@v2
